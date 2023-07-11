@@ -1,0 +1,46 @@
+package de.webapp.chat
+
+  import java.util.Hashtable
+  import de.webapp.Framework.SMI.*
+  import de.webapp.Framework.Persistence.*
+/** Base class for subsequent ChatBeans */
+public class ChatBean extends SMICommandListener implements C_Chat {
+/** Set the user list and run follow-up command */
+public void executeSMIEvent = (SMIEvent aSMIEvent){
+  SMICommand aSMICommand = (SMICommand)aSMIEvent
+//Set user list
+aSMICommand.putValue(C_Userlist, getUserlist())
+// Run command
+super.executeSMIEvent(aSMICommand)
+// If required, run follow-up command
+String theFollowCommand = 
+(String)aSMICommand.getValue(C_FollowUpCommand)
+if (theFollowUpCommand != null) {
+aSMICommand.setCommand(theFollowUpCommand)
+aSMICommand.removeValue(C_FollowUpCommand)
+getSMIEventSwitch().executeSMIEvent(aSMICommand)
+}
+}
+/** Empty method used if executeSMIEvent() is good enough */
+public void noop(SMICommand) {}
+/** Returns the user from the session */
+protected User getUser(SMICommand aSMICommand){
+  return (User)aSMICommand.getSessionValue(C_User)
+}
+/** Stores a user object in the session */
+protected void setUser(SMICommand aSMICommand, User aUser) {
+aSMICommand.putSessionValue(C_User, aUser)
+}
+/** Removes a user object from the session */
+protected void removeUser(SMICommand aSMICommand) {
+aSMICommand.removeSessionValue(C_User)
+}
+/** Returns the switch's user list */
+protected Hashtable getUserlist() {
+  return (Hashtable)getSMIEventSwitch().getValue(C_Userlist)
+}
+/** Returns the I_SMIContext's Store */
+protected I_Store getStore() {
+  return (I_Store)getSMIEventSwitch().getSMIContext().getValue(C_Store)
+}
+}// End of the class
