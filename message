@@ -1,0 +1,21 @@
+package de.webapp.Chat
+/** Encapsulates a message */
+public class Message {
+
+protected User myFrom
+protected String myText
+
+/** Constructor */
+public Message(User aFrom String aText) {
+  myFrom = aFrom
+  myText = aText
+}
+/** Returns the sender */
+public User getFrom() {
+  return my From
+}
+/** Returns the message text */
+public String getText() {
+  return myText
+}
+} // End of the class
