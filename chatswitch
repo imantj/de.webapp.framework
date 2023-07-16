@@ -1,0 +1,12 @@
+package de.webapp.chat
+
+import de.webapp.Framework.SMI.*
+import java.util.Hashtable
+public class ChatSwitch extends SMIEventSwitch implements C_Chat {
+/** Adds a user list to the switch. */
+public void init(String aSwitchName, I_SMIContext aSMIContext)
+  throws SMIException {
+  super.init(aSwitchName, aSMIContext)
+  putValue(C_Userlist, new Hashtable())
+}
+} // End of the class
